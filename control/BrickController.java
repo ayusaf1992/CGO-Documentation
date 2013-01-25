@@ -23,14 +23,14 @@ public class BrickController implements Controller {
     public final RemoteMotor RIGHT_WHEEL = Motor.C;
     public final RemoteMotor KICKER = Motor.A;
 
-    public final boolean INVERSE_WHEELS = true;
+    public final boolean INVERSE_WHEELS = false;
 
     public final float WHEEL_DIAMETER = 0.0816f; // metres
     public final float TRACK_WIDTH = 0.155f; // metres
 
-    public static final int MAXIMUM_MOTOR_SPEED = 900;
+    public static final int MAXIMUM_MOTOR_SPEED = 1000000;
 
-    public static final int GEAR_ERROR_RATIO = 2; // Gears cut our turns in half
+    public static final int GEAR_ERROR_RATIO = 1; // Gears cut our turns in half
 
     private volatile boolean isKicking = false;
 
@@ -118,6 +118,10 @@ public class BrickController implements Controller {
     public float getTravelDistance() {
         return pilot.getTravelDistance();
     }
+    
+    public float getMoveMaxSpeed() {
+    	return pilot.getMoveMaxSpeed();
+    }
 
     public void reset() {
         pilot.reset();
@@ -147,6 +151,7 @@ public class BrickController implements Controller {
         if (INVERSE_WHEELS) {
             leftWheelSpeed *= -1;
             rightWheelSpeed *= -1;
+        System.out.println("LEFT Power" + LEFT_WHEEL.getPower());
         }
         setMotorSpeed(LEFT_WHEEL, leftWheelSpeed);
         setMotorSpeed(RIGHT_WHEEL, rightWheelSpeed);
@@ -194,6 +199,10 @@ public class BrickController implements Controller {
 	@Override
 	public void addListener(ControllerListener cl) {
 		// TODO make STUB
+	}
+	
+	public void arc(float radius) {
+		pilot.steer(radius);
 	}
 
 }
