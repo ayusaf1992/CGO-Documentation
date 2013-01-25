@@ -76,22 +76,41 @@ public class VisionUsageExample implements Runnable {
 	public void run() {
 		// Start the vision thread.
 		input.startCapture();
-		
-		while (!Thread.interrupted()) {
-			// Get the next world state. 
-			WorldState state = visionObserver.getNextState();
-			
-			// Do something with the world state.
-			System.out.println("NEW STATE: " +
-					"Ball at (" + state.getBallCoords().x +
-						", " + state.getBallCoords().y + "), " +
-					"Blue at (" + state.getBlueRobot().getCoords().x +
-						", " + state.getBlueRobot().getCoords().y +
-						", " + state.getBlueRobot().getAngle() + "), " +
-					"Yellow at (" + state.getYellowRobot().getCoords().x +
-						", " + state.getYellowRobot().getCoords().y +
-						", " + state.getYellowRobot().getAngle() + ").");
+
+		if (USE_CAMERA) {
+            while (!Thread.interrupted()) {
+                // Get the next world state.
+                WorldState state = visionObserver.getNextState();
+
+                // Do something with the world state.
+                System.out.println("NEW STATE: " +
+                        "Ball at (" + state.getBallCoords().x +
+                            ", " + state.getBallCoords().y + "), " +
+                        "Blue at (" + state.getBlueRobot().getCoords().x +
+                            ", " + state.getBlueRobot().getCoords().y +
+                            ", " + state.getBlueRobot().getAngle() + "), " +
+                        "Yellow at (" + state.getYellowRobot().getCoords().x +
+                            ", " + state.getYellowRobot().getCoords().y +
+                            ", " + state.getYellowRobot().getAngle() + ").");
 		}
+        }
+
+        else {
+            for (int i = 0; i < 3; i++) {
+                WorldState state = visionObserver.getNextState();
+
+                // Do something with the world state.
+                System.out.println("NEW STATE: " +
+                        "Ball at (" + state.getBallCoords().x +
+                        ", " + state.getBallCoords().y + "), " +
+                        "Blue at (" + state.getBlueRobot().getCoords().x +
+                        ", " + state.getBlueRobot().getCoords().y +
+                        ", " + state.getBlueRobot().getAngle() + "), " +
+                        "Yellow at (" + state.getYellowRobot().getCoords().x +
+                        ", " + state.getYellowRobot().getCoords().y +
+                        ", " + state.getYellowRobot().getAngle() + ").");
+            }
+        }
 	}
 	
 	
