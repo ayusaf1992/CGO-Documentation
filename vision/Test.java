@@ -216,16 +216,13 @@ public class Test extends Vision {
 	public static void main(String[] args) throws InterruptedException{
 
 		//Test constructor for methods
-		Test test =new Test();
+		Test test = new Test();
 
 		//delay in ms between slides being shown.
-		int delay = 0;
+		int delay = 5000;
 
 		//if visual output should be shown when iterating
-		boolean visoutput = false;
-
-		//The xml file (currently hard coded location) is parsed by the above voodoo and stored in an ArrayList<WorldState>
-		ArrayList<WorldState> annotations = getWorldStateFromDocument(getDocumentFromXML("vision/imagedata.xml"));
+		boolean visoutput = true;
 
 		//Init display if showing output
 		JFrame frame = null;
