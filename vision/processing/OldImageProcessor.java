@@ -9,7 +9,7 @@
 // total_hours_wasted_here = 29
 // 
 
-package sdp.vision.vision.Group8VisionProcessing;
+package sdp.vision.vision.processing;
 
 import java.awt.Color;
 import java.awt.MouseInfo;

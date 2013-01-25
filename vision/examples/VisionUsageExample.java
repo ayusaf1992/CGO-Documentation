@@ -3,10 +3,10 @@ package sdp.vision.vision.examples;
 import au.edu.jcu.v4l4j.V4L4JConstants;
 import sdp.vision.vision.common.WorldState;
 import sdp.vision.vision.common.WorldStateObserver;
-import sdp.vision.vision.CameraVisualInputProvider;
-import sdp.vision.vision.ImageVisualInputProvider;
+import sdp.vision.vision.visualinput.CameraVisualInputProvider;
+import sdp.vision.vision.visualinput.ImageVisualInputProvider;
 import sdp.vision.vision.Vision;
-import sdp.vision.vision.VisualInputProvider;
+import sdp.vision.vision.visualinput.VisualInputProvider;
 
 
 /**

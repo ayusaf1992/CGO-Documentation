@@ -1,8 +1,9 @@
 package sdp.vision.vision;
 
-import sdp.vision.vision.Group8VisionProcessing.OldImageProcessor;
+import sdp.vision.vision.processing.OldImageProcessor;
 import sdp.vision.vision.common.WorldState;
 import sdp.vision.vision.common.WorldStateProvider;
+import sdp.vision.vision.visualinput.VisualInputCallback;
 
 import java.awt.image.BufferedImage;
 
