@@ -1,4 +1,4 @@
-package sdp.vision;
+package sdp.vision.vision;
 
 import au.edu.jcu.v4l4j.CaptureCallback;
 import au.edu.jcu.v4l4j.FrameGrabber;

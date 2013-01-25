@@ -9,7 +9,7 @@
 // total_hours_wasted_here = 29
 // 
 
-package sdp.vision;
+package sdp.vision.vision;
 
 import java.awt.Color;
 import java.awt.MouseInfo;
@@ -17,7 +17,6 @@ import java.awt.Point;
 import java.awt.Transparency;
 import java.awt.color.ColorSpace;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.ComponentColorModel;
@@ -26,9 +25,9 @@ import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.util.LinkedList;
 
-import sdp.vision.common.Robot;
-import sdp.vision.common.WorldState;
-import sdp.vision.common.Tools;
+import sdp.vision.vision.common.Robot;
+import sdp.vision.vision.common.WorldState;
+import sdp.vision.vision.common.Tools;
 
 public class OldImageProcessor {
 

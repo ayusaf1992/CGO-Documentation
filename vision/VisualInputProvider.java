@@ -1,4 +1,6 @@
-package sdp.vision;
+package sdp.vision.vision;
+
+import sdp.vision.vision.VisualInputCallback;
 
 import java.awt.image.BufferedImage;
 

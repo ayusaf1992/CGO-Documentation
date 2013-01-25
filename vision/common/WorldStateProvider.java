@@ -1,4 +1,4 @@
-package sdp.vision.common;
+package sdp.vision.vision.common;
 
 import java.util.Observable;
 import java.util.Observer;

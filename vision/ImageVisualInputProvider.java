@@ -1,4 +1,4 @@
-package sdp.vision;
+package sdp.vision.vision;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

@@ -1,4 +1,4 @@
-package sdp.vision.common;
+package sdp.vision.vision.common;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -13,7 +13,7 @@ import java.util.Observer;
 public final class WorldStateObserver implements Observer {
 	
 	/** Next fresh state. */
-	private sdp.vision.common.WorldState worldState;
+	private sdp.vision.vision.common.WorldState worldState;
 	/** Whether the currently stored state has been returned. */
 	private boolean stateIsFresh;
 	

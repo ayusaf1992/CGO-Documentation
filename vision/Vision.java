@@ -1,7 +1,7 @@
-package sdp.vision;
+package sdp.vision.vision;
 
-import sdp.vision.common.WorldState;
-import sdp.vision.common.WorldStateProvider;
+import sdp.vision.vision.common.WorldState;
+import sdp.vision.vision.common.WorldStateProvider;
 
 import java.awt.image.BufferedImage;
 

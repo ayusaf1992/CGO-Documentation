@@ -1,4 +1,4 @@
-package sdp.vision.common;
+package sdp.vision.vision.common;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
