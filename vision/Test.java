@@ -1,4 +1,4 @@
-package sdp.vision;
+package sdp.vision.vision;
 
 import javax.swing.JFrame;
 import java.awt.image.BufferedImage;
@@ -13,6 +13,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import sdp.vision.vision.IterativeWorldStateDifferenceAccumulator;
+import sdp.vision.vision.Vision;
 import sdp.vision.vision.common.Robot;
 import sdp.vision.vision.common.WorldState;
 import sdp.vision.vision.Viewer;
@@ -20,12 +22,11 @@ import sdp.vision.vision.common.Utilities;
 
 public class Test extends Vision {
 	//Configuration used to convert between relative coordinates and Pixel-Range coordinates
-	static ImageProcessorConfig config = new ImageProcessorConfig();
 	static ArrayList<String> filelist = new ArrayList<String>();
 
 	//gets the document from the xml file
 	private static Document getDocumentFromXML(String filename){
-		//Something about factories. 
+		//Something about factories.
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		Document dom = null;
 		try {
@@ -50,7 +51,7 @@ public class Test extends Vision {
 		ArrayList<WorldState> states = new ArrayList<WorldState>();
 		//get the root element from the document
 		Element annotations = dom.getDocumentElement();
-		//get a nodelist of  elements 
+		//get a nodelist of  elements
 		NodeList nl = annotations.getElementsByTagName("image");
 		//if there are elements then iterate through them to extract each state
 		if(nl != null && nl.getLength() > 0) {
@@ -121,48 +122,23 @@ public class Test extends Vision {
 		Point2D.Double ballpos = new Point2D.Double(getFloatValue(balldata,"x"),getFloatValue(balldata,"y"));
 
 		// location-data -> bluerobot
-		Element bluerobotdata = (Element) data.getElementsByTagName("bluerobot").item(0); 
+		Element bluerobotdata = (Element) data.getElementsByTagName("bluerobot").item(0);
 
 		//defining a blue robot object and passing it bluerobot -> x, bluerobot -> y and bluerobot -> angle
 		Robot bluerobot = new Robot(new Point2D.Double(getFloatValue(bluerobotdata,"x"),getFloatValue(bluerobotdata,"y")), (double) getFloatValue(bluerobotdata,"angle") );
 
 		// location-data -> yellowrobot
-		Element yellowrobotdata = (Element)data.getElementsByTagName("yellowrobot").item(0); 
+		Element yellowrobotdata = (Element)data.getElementsByTagName("yellowrobot").item(0);
 
 		//defining a yellow robot object and passing it yellowrobot -> x, yellowrobot -> y and yellowrobot -> angle
 		Robot yellowrobot = new Robot(new Point2D.Double(getFloatValue(yellowrobotdata,"x"),getFloatValue(yellowrobotdata,"y")), (double) getFloatValue(yellowrobotdata,"angle") );
 
-		//WorldState object is created with parsed data passed to the constructor. 
+		//WorldState object is created with parsed data passed to the constructor.
 
 		state = new WorldState(ballpos, bluerobot, yellowrobot, image);
 
 		//WorldState object is returned to whatever called this method.
 		return state;
-	}
-
-	//Converts all coordinates in a WorldState to the de-normalised versions for use when drawing onto pixel locations.
-	public static WorldState convertToPixelRange(WorldState ws){
-		Point2D.Double ball = new Point2D.Double(correctX(ws.getBallCoords().x),correctY(ws.getBallCoords().y));
-		Robot blue = new Robot(new Point2D.Double(correctX(ws.getBlueRobot().getCoords().x),correctY(ws.getBlueRobot().getCoords().y)),ws.getBlueRobot().getAngle());
-		Robot yellow = new Robot(new Point2D.Double(correctX(ws.getYellowRobot().getCoords().x),correctY(ws.getYellowRobot().getCoords().y)),ws.getYellowRobot().getAngle());
-
-		//New WorldState is created by converting all components and then creating a new WorldState
-		WorldState ns = new WorldState(ball,blue,yellow,ws.getWorldImage());
-		//Pixel-Range WorldState is returned
-		return ns;
-	}
-
-	//Used for de-normalising the x component of coordinates.
-	public static int correctX (double x){
-		x*=config.getFieldWidth();
-		x+=config.getFieldLowX();
-		return (int) x;
-	}
-	//Used for de-normalising the y component of coordinates.
-		public static int correctY (double y){
-		y*=config.getFieldWidth();
-		y+=config.getFieldLowY();
-		return (int) y;
 	}
 
 	public static void printMarginsOfError( IterativeWorldStateDifferenceAccumulator difference, ArrayList<WorldState> annotations){
@@ -249,7 +225,7 @@ public class Test extends Vision {
 		boolean visoutput = false;
 
 		//The xml file (currently hard coded location) is parsed by the above voodoo and stored in an ArrayList<WorldState>
-		ArrayList<WorldState> annotations = getWorldStateFromDocument(getDocumentFromXML("xml/imagedata.xml"));
+		ArrayList<WorldState> annotations = getWorldStateFromDocument(getDocumentFromXML("vision/imagedata.xml"));
 
 		//Init display if showing output
 		JFrame frame = null;
@@ -266,10 +242,9 @@ public class Test extends Vision {
 
 		//For each state documented in the XML
 		for (WorldState state : annotations){
-			System.out.println(state);
 
 			//Copy of the manual image is made so that the original is not overwritten.
-			Utilities utility = new Utilities();
+			sdp.vision.vision.common.Utilities utility = new sdp.vision.vision.common.Utilities();
 			BufferedImage manualimage = utility.deepBufferedImageCopy(state.getWorldImage());
 
 			//The comparative WorldState object that the vision system will construct.
@@ -277,12 +252,12 @@ public class Test extends Vision {
 
 			//The vision system is passed the image from the annotation and generates
 			//a WorldState to be compared with the human perception
-			visionimage = convertToPixelRange(test.worldImageData(utility.deepBufferedImageCopy(state.getWorldImage())));
+             visionimage = test.worldImageData(utility.deepBufferedImageCopy(state.getWorldImage()));
 
-			//Update visual output if showing
-			if (visoutput){
-				base.updateImageAndState(manualimage,state,visionimage);
-			}
+            //Update visual output if showing
+            if (visoutput){
+                base.updateImageAndState(manualimage,state,visionimage);
+            }
 
 			//Sleep if delay is configured
 			Thread.sleep(delay);
@@ -297,6 +272,6 @@ public class Test extends Vision {
 		}
 
 		//Average errors over iterations are printed
-		printMarginsOfError(difference,annotations);		
+		printMarginsOfError(difference,annotations);
 	}
 }
