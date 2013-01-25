@@ -73,6 +73,7 @@ public class Viewer extends Panel{
      	//Draw Backgrounds
 			//Draw Ball
 			g.setColor(Color.red);
+            System.out.println(visstate.getBallCoords().x);
 			g.fillRect(correctX(visstate.getBallCoords().x)-4,correctY(visstate.getBallCoords().y)-4, 8, 8);
 			//Draw blue robot
 			g.setColor(Color.blue);
@@ -80,15 +81,6 @@ public class Viewer extends Panel{
 			//Draw yellow robot
 			g.setColor(Color.yellow);
 			g.fillRect(correctX(visstate.getYellowRobot().getCoords().x)-4,correctY(visstate.getYellowRobot().getCoords().y)-4, 8, 8);
-     		
-		//Draw borders
-     		g.setColor(Color.red);
-			//Draw ball
-			g.drawRect(correctX(visstate.getBallCoords().x)-4,correctY(visstate.getBallCoords().y)-4, 8, 8);
-			//Draw blue robot
-			g.drawRect(correctX(visstate.getBlueRobot().getCoords().x)-4,correctY(visstate.getBlueRobot().getCoords().y)-4, 8, 8);
-			//Draw yellow robot
-			g.drawRect(correctX(visstate.getYellowRobot().getCoords().x)-4,correctY(visstate.getYellowRobot().getCoords().y)-4, 8, 8);
 		}
 	}
 }

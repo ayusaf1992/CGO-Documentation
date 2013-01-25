@@ -219,10 +219,13 @@ public class Test extends Vision {
 		Test test = new Test();
 
 		//delay in ms between slides being shown.
-		int delay = 5000;
+		int delay = 0;
 
 		//if visual output should be shown when iterating
 		boolean visoutput = true;
+
+		//The xml file (currently hard coded location) is parsed by the above voodoo and stored in an ArrayList<WorldState>
+		ArrayList<WorldState> annotations = getWorldStateFromDocument(getDocumentFromXML("vision/imagedata.xml"));
 
 		//Init display if showing output
 		JFrame frame = null;

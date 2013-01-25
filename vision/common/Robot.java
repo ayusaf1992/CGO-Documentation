@@ -110,4 +110,9 @@ public final class Robot {
 		return backRightPoint;
 	}
 
+    public String toString() {
+
+        return null;
+    }
+
 }

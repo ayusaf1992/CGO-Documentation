@@ -73,5 +73,9 @@ public final class WorldState {
 	public final BufferedImage getWorldImage() {
 		return worldImage;
 	}
-	
+
+    public String toString() {
+
+        return null;
+    }
 }
