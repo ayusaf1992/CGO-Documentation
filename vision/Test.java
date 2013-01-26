@@ -1,24 +1,24 @@
 package sdp.vision.vision;
 
-import javax.swing.JFrame;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.util.ArrayList;
-import java.awt.geom.Point2D;
-import javax.imageio.ImageIO;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import sdp.vision.vision.IterativeWorldStateDifferenceAccumulator;
-import sdp.vision.vision.Vision;
 import sdp.vision.vision.common.Robot;
 import sdp.vision.vision.common.WorldState;
-import sdp.vision.vision.Viewer;
-import sdp.vision.vision.common.Utilities;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Test extends Vision {
 	//Configuration used to convert between relative coordinates and Pixel-Range coordinates

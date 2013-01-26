@@ -76,6 +76,6 @@ public final class WorldState {
 
     public String toString() {
 
-        return null;
+        return "Ball: " + ballCoords.toString() + "; BlueRobot " + blueRobot.toString() + "; YellowRobot " + yellowRobot.toString();
     }
 }

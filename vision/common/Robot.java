@@ -112,7 +112,7 @@ public final class Robot {
 
     public String toString() {
 
-        return null;
+        return "Robot center at: " + coords.toString() + "; Angle the robot is facing in radians: " + angle + "; Fl, Fr, Bl, Br at: " + frontLeftPoint.toString() + ", " + frontRightPoint.toString() +  ", " + backLeftPoint.toString() + ", " + backRightPoint.toString();
     }
 
 }
