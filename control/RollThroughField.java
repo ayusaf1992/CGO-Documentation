@@ -1,5 +1,6 @@
 
 //import lejos.nxt.LCD;
+import lejos.nxt.remote.NXTCommand;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
 import lejos.nxt.remote.RemoteMotor;
@@ -7,7 +8,7 @@ import static java.lang.System.out;
 
 public class RollThroughField {
 
-	private static final int ROLL_SPEED = 500;
+	private static final int ROLL_SPEED = 300;
 	private static final float ROLL_DISTANCE = 1f;
 
     /* private static void drawMessage(String message) {
@@ -48,7 +49,11 @@ public class RollThroughField {
                 movingForward = true;
                 controller.reset();
                 controller.setWheelSpeeds(speed,speed);
-                
+                try {
+                	Thread.sleep(200);
+                } catch (Exception e) {
+                	
+                }
             } else {
             	if(firstTime) {
             		speed = 900;
@@ -60,7 +65,7 @@ public class RollThroughField {
                 if (distance > rollDistance) {
                 	controller.stop();
                 	if (!hasStoppedOnce) {
-                		controller.rotate(180, 120);
+                		//controller.rotate(180, 120);
                 		controller.reset();
                         //controller.forward(speed);
                 		controller.stop();			
@@ -75,7 +80,7 @@ public class RollThroughField {
 
             }
             try {
-            	Thread.sleep(500);
+            	Thread.sleep(80);
             } catch (Exception e) {
             	
             }

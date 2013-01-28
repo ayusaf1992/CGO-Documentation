@@ -30,7 +30,7 @@ public class BrickController implements Controller {
 
     public static final int MAXIMUM_MOTOR_SPEED = 1000000;
 
-    public static final int GEAR_ERROR_RATIO = 1; // Gears cut our turns in half
+    public static final float GEAR_ERROR_RATIO = 1.7f; // Gears cut our turns in half
 
     private volatile boolean isKicking = false;
 

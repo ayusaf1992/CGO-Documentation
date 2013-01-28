@@ -25,15 +25,15 @@ public class TurnTester {
             if (!movingForward) {
                 movingForward = true;
                 controller.reset();
-                controller.arc(-100f);
+                //controller.arc(-100f);
                 
             } else {
             	float distance = controller.getTravelDistance();
             	System.out.println("went "+distance+"m");
-                if (distance > rollDistance) {
+                if (distance > rollDistance || true) {
                 	controller.stop();
                 	if (!hasStoppedOnce) {
-                		controller.rotate(180, 120);
+                		controller.rotate(360, 50);
                 		controller.reset();
                         //controller.forward(speed);
                 		controller.stop();			
