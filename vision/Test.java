@@ -222,7 +222,7 @@ public class Test extends Vision {
         Test test = new Test();
 
         //delay in ms between slides being shown.
-        int delay = 0;
+        int delay = 2000;
 
         //if visual output should be shown when iterating
         boolean visoutput = true;

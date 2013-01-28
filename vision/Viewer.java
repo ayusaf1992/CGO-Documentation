@@ -78,7 +78,6 @@ public class Viewer extends Panel {
             //Draw Backgrounds
             //Draw Ball
             g.setColor(Color.red);
-            System.out.println(visstate.getBallCoords().x);
             g.fillRect(correctX(visstate.getBallCoords().x) - 4, correctY(visstate.getBallCoords().y) - 4, 8, 8);
             //Draw blue robot
             g.setColor(Color.blue);
