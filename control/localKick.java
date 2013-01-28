@@ -2,11 +2,12 @@ import lejos.nxt.Motor;
 
 public class localKick {
 
-	public final Motor KICKER = Motor.A;
-
-	private volatile boolean isKicking = false;
+	private static boolean isKicking = false;
 	
-	public void kickControl() {
+	static void main(String[] args) {
+
+	final Motor KICKER = Motor.A;
+
 
 	KICKER.smoothAcceleration(false);
         KICKER.regulateSpeed(false);
@@ -17,13 +18,14 @@ public class localKick {
 
         isKicking = true;
 
-	KICKER.forward();	
+	KICKER.forward();
+	KICKER.setSpeed(900);
+        KICKER.resetTachoCount();	
 	//KICKER.rotateTo(0);        
 	try {
-		Thread.sleep(80);
+		Thread.sleep(150);
 	} catch (Exception e) {}
-	KICKER.setSpeed(900);
-        KICKER.resetTachoCount();
+
         KICKER.backward();
 
         new Thread(new Runnable() {
