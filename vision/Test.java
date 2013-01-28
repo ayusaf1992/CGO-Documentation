@@ -12,7 +12,7 @@ import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.awt.geom.Point2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -86,7 +86,13 @@ public class Test extends Vision {
         return textVal.replace("\n", "");
     }
 
-    //return the float value contained within an XML element after first reading it's plaintext.
+    //return the int value contained within an XML element after first reading it's plaintext.
+    private static int getIntValue (Element ele, String tagName) {
+        //in production application you would catch the exception
+        return Integer.parseInt(getTextValue(ele, tagName));
+    }
+
+    //return the int value contained within an XML element after first reading it's plaintext.
     private static float getFloatValue (Element ele, String tagName) {
         //in production application you would catch the exception
         return Float.parseFloat(getTextValue(ele, tagName));
@@ -122,19 +128,19 @@ public class Test extends Vision {
         Element balldata = (Element) data.getElementsByTagName("ball").item(0);
 
         // ball -> x and ball -> y. Passed into a Point2D.Double ready to be passed to WorldState
-        Point2D.Double ballpos = new Point2D.Double(getFloatValue(balldata, "x"), getFloatValue(balldata, "y"));
+        Point ballpos = new Point(getIntValue(balldata, "x"), getIntValue(balldata, "y"));
 
         // location-data -> bluerobot
         Element bluerobotdata = (Element) data.getElementsByTagName("bluerobot").item(0);
 
         //defining a blue robot object and passing it bluerobot -> x, bluerobot -> y and bluerobot -> angle
-        Robot bluerobot = new Robot(new Point2D.Double(getFloatValue(bluerobotdata, "x"), getFloatValue(bluerobotdata, "y")), (double) getFloatValue(bluerobotdata, "angle"), null);
+        Robot bluerobot = new Robot(new Point(getIntValue(bluerobotdata, "x"), getIntValue(bluerobotdata, "y")), (double) getFloatValue(bluerobotdata, "angle"), null);
 
         // location-data -> yellowrobot
         Element yellowrobotdata = (Element) data.getElementsByTagName("yellowrobot").item(0);
 
         //defining a yellow robot object and passing it yellowrobot -> x, yellowrobot -> y and yellowrobot -> angle
-        Robot yellowrobot = new Robot(new Point2D.Double(getFloatValue(yellowrobotdata, "x"), getFloatValue(yellowrobotdata, "y")), (double) getFloatValue(yellowrobotdata, "angle"), null);
+        Robot yellowrobot = new Robot(new Point(getIntValue(yellowrobotdata, "x"), getIntValue(yellowrobotdata, "y")), (double) getFloatValue(yellowrobotdata, "angle"), null);
 
         //WorldState object is created with parsed data passed to the constructor.
 
@@ -146,9 +152,9 @@ public class Test extends Vision {
 
     public static void printMarginsOfError (IterativeWorldStateDifferenceAccumulator difference, ArrayList<WorldState> annotations) {
         //Error details are generated
-        String ballerror = "Average ball error is " + ((float) difference.averageBallError(annotations.size())) + " pixels.";
-        String blueerror = "Average blue robot error is " + ((float) difference.averageBlueError(annotations.size())) + " pixels.";
-        String yellowerror = "Average yellow robot error is " + ((float) difference.averageYellowError(annotations.size())) + " pixels.";
+        String ballerror = "Average ball error is " + ((int) difference.averageBallError(annotations.size())) + " pixels.";
+        String blueerror = "Average blue robot error is " + ((int) difference.averageBlueError(annotations.size())) + " pixels.";
+        String yellowerror = "Average yellow robot error is " + ((int) difference.averageYellowError(annotations.size())) + " pixels.";
 
         //And output to the terminal
         System.out.println(ballerror);
@@ -174,7 +180,7 @@ public class Test extends Vision {
             out.append("\n");
             out.append(ballerror + "\n");
             index = 0;
-            for (float error : difference.balllist) {
+            for (int error : difference.balllist) {
                 index++;
                 out.append(index + ": ");
                 if (error > tolerance) {
@@ -186,7 +192,7 @@ public class Test extends Vision {
 
             out.append(blueerror + "\n");
             index = 0;
-            for (float error : difference.bluelist) {
+            for (int error : difference.bluelist) {
                 index++;
                 out.append(index + ": ");
                 if (error > tolerance) {
@@ -198,7 +204,7 @@ public class Test extends Vision {
 
             out.append(yellowerror + "\n");
             index = 0;
-            for (float error : difference.yellowlist) {
+            for (int error : difference.yellowlist) {
                 index++;
                 out.append(index + ": ");
                 if (error > tolerance) {
@@ -222,7 +228,7 @@ public class Test extends Vision {
         Test test = new Test();
 
         //delay in ms between slides being shown.
-        int delay = 2000;
+        int delay = 0;
 
         //if visual output should be shown when iterating
         boolean visoutput = true;

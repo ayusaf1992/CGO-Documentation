@@ -1,7 +1,6 @@
 package sdp.vision.vision.common;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 
 /**
@@ -24,7 +23,7 @@ public final class Robot {
     /**
      * Coordinates of the robot's center on the field.
      */
-    private Point2D.Double coords;
+    private Point coords;
     /**
      * The angle the robot is facing, in radians.
      */
@@ -42,7 +41,7 @@ public final class Robot {
      * @param coords The robot's coordinates.
      * @param angle  The angle the robot is facing, in radians.
      */
-    public Robot (Point2D.Double coords, double angle, Point[] platePoints) {
+    public Robot (Point coords, double angle, Point[] platePoints) {
 
         this.coords = coords;
         this.angle = angle;
@@ -55,7 +54,7 @@ public final class Robot {
      *
      * @return Coordinates of the robot's center.
      */
-    public final Point2D.Double getCoords () {
+    public final Point getCoords () {
 
         return coords;
     }

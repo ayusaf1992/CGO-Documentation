@@ -26,7 +26,7 @@ public class NewImageProcessor {
         if (previousState == null) {
 
             BufferedImage secondNewImage = preprocessor.removeBarrelDistortion(image, 0, 640, 0, 480);
-            nextState = locator.locate(nextState, newImage, 0, 640, 0, 480);
+            nextState = locator.locate(nextState, secondNewImage, 0, 640, 0, 480);
             nextState = postprocessor.postProcess(nextState, secondNewImage, locator.getBluePixels(), locator.getYellowPixels());
 
         }
