@@ -29,6 +29,10 @@ public final class WorldState {
      */
     private BufferedImage worldImage;
 
+    /**
+     * The pitch.
+     */
+    private Pitch pitch;
 
     /**
      * The main constructor.
@@ -87,8 +91,18 @@ public final class WorldState {
         return worldImage;
     }
 
+    /**
+     * Get the pitch.
+     *
+      * @return The pitch.
+     */
+    public final Pitch getPitch () {
+
+        return pitch;
+    }
+
     public String toString () {
 
-        return "Ball: " + ballCoords.toString() + "; BlueRobot " + blueRobot.toString() + "; YellowRobot " + yellowRobot.toString();
+        return "Ball: " + ballCoords.toString() + "; BlueRobot " + blueRobot.toString() + "; YellowRobot " + yellowRobot.toString() + pitch.toString();
     }
 }
