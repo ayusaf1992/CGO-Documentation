@@ -4,7 +4,6 @@ import sdp.vision.vision.common.Robot;
 import sdp.vision.vision.common.WorldState;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -25,21 +24,25 @@ public class Locator {
     private Point[] yellowGreenPlate4Points = new Point[]{new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)};
     private ArrayList<Point> bluePixels = new ArrayList<Point>();
     private ArrayList<Point> yellowPixels = new ArrayList<Point>();
+
     /* Ball. */
     private int ball_r = 130;
     private int ball_g = 90;
     private int ball_b = 90;
+
     /* Blue Robot. */
     private int blue_r = 130;
     private int blue_g = 180;
     private int blue_b = 100;
+
     /* Yellow Robot. */
-    private int yellow_r_low;
-    private int yellow_r_high;
-    private int yellow_g_low;
-    private int yellow_g_high;
-    private int yellow_b_low;
-    private int yellow_b_high;
+    private int yellow_r_low = 245;
+    private int yellow_r_high = 260;
+    private int yellow_g_low = 220;
+    private int yellow_g_high = 242;
+    private int yellow_b_low = 65;
+    private int yellow_b_high = 115;
+
     /* Grey Circle. */
     private int grey_r_low;
     private int grey_r_high;
@@ -47,10 +50,12 @@ public class Locator {
     private int grey_g_high;
     private int grey_b_low;
     private int grey_b_high;
+
     /* Green plates */
     private int green_RG = 75;
     private int green_GB = 50;
     private int green_g = 125;
+
     private ArrayList<Point> blueGreenPlate;
     private ArrayList<Point> yellowGreenPlate;
     private Color cE;
@@ -74,30 +79,6 @@ public class Locator {
         /*pitch = worldState.getRoom();
         width = right-left;
         height = top-bottom;*/
-
-        redBallThresh[0][0] = 130;
-        redBallThresh[0][1] = 90;
-        redBallThresh[0][2] = 90;
-        redBallThresh[1][0] = 170;
-        redBallThresh[1][1] = 170;
-        redBallThresh[1][2] = 170;
-
-        yellowRobotThresh[0][0] = 140;
-        yellowRobotThresh[0][1] = 140;
-        yellowRobotThresh[0][2] = 170;
-        yellowRobotThresh[1][0] = 150;
-        yellowRobotThresh[1][1] = 190;
-        yellowRobotThresh[1][2] = 140;
-
-        blueRobotThresh[0][0] = 120;
-        blueRobotThresh[0][1] = 170;
-        blueRobotThresh[0][2] = 90;
-        blueRobotThresh[1][0] = 160;
-        blueRobotThresh[1][1] = 230;
-        blueRobotThresh[1][2] = 215;
-
-        greenPlatesThresh[0][0] = 120;
-        greenPlatesThresh[1][0] = 205;
 
         /*
        Initialising to one to stop java dividing by 0 when it shouldn't
@@ -266,8 +247,8 @@ public class Locator {
         if (yellowCountD == 0) yellowCountD++;
         if (yellowCountE == 0) yellowCountE++;
 
-        double totalRedX = 0;
-        double totalRedY = 0;
+        float totalRedX = 0;
+        float totalRedY = 0;
         int numRedCentroids = 0;
 
 
@@ -277,8 +258,8 @@ public class Locator {
         redCentroidD.setLocation(redCentroidD.getX() / redCountD, redCentroidD.getY() / redCountD);
         redCentroidE.setLocation(redCentroidE.getX() / redCountE, redCentroidE.getY() / redCountE);
 
-        double totalYellowX = 0;
-        double totalYellowY = 0;
+        float totalYellowX = 0;
+        float totalYellowY = 0;
         int numYellowCentroids = 0;
 
 
@@ -289,8 +270,8 @@ public class Locator {
         yellowCentroidE.setLocation(yellowCentroidE.getX() / yellowCountE, yellowCentroidE.getY() / yellowCountE);
 
 
-        double totalBlueX = 0;
-        double totalBlueY = 0;
+        float totalBlueX = 0;
+        float totalBlueY = 0;
         int numBlueCentroids = 0;
 
 
@@ -335,8 +316,14 @@ public class Locator {
             numRedCentroids++;
         }
 
-        int redX = (int) (totalRedX / numRedCentroids);
-        int redY = (int) (totalRedY / numRedCentroids);
+        float redX = (float) (totalRedX / numRedCentroids);
+        float redY = (float) (totalRedY / numRedCentroids);
+
+        /*System.out.println(yellowCentroidA.toString());
+        System.out.println(yellowCentroidB.toString());
+        System.out.println(yellowCentroidC.toString());
+        System.out.println(yellowCentroidD.toString());
+        System.out.println(yellowCentroidE.toString());*/
 
         c = new Color(img.getRGB((int) yellowCentroidA.getX(), (int) yellowCentroidA.getY()));
         if (isYellow(c)) {
@@ -369,13 +356,17 @@ public class Locator {
             numYellowCentroids++;
         }
 
+        System.out.println(totalYellowX);
+        System.out.println(totalYellowY);
+        System.out.println(numYellowCentroids);
+
         if (numYellowCentroids == 0) {
             numYellowCentroids++;
         }
 
-        int yellowX = (int) (totalYellowX / numYellowCentroids);
-        int yellowY = (int) (totalYellowY / numYellowCentroids);
-        Point2D.Double yellowCenter = new Point2D.Double(yellowX, yellowY);
+        float yellowX = (float) (totalYellowX / numYellowCentroids);
+        float yellowY = (float) (totalYellowY / numYellowCentroids);
+        Point yellowCenter = new Point((int) yellowX, (int) yellowY);
 
         c = new Color(img.getRGB((int) blueCentroidA.getX(), (int) blueCentroidA.getY()));
         if (isBlue(c)) {
@@ -412,16 +403,16 @@ public class Locator {
             numBlueCentroids++;
         }
 
-        int blueX = (int) (totalBlueX / numBlueCentroids);
-        int blueY = (int) (totalBlueY / numBlueCentroids);
-        Point2D.Double blueCenter = new Point2D.Double(blueX, blueY);
+        float blueX = (float) (totalBlueX / numBlueCentroids);
+        float blueY = (float) (totalBlueY / numBlueCentroids);
+        Point blueCenter = new Point((int) blueX, (int) blueY);
 
         blueGreenPlate4Points = VisionTools.getCorners(blueGreenPlate);
         yellowGreenPlate4Points = VisionTools.getCorners(yellowGreenPlate);
 
         Robot blueRobot = new Robot(blueCenter, 0.0, blueGreenPlate4Points);
         Robot yellowRobot = new Robot(yellowCenter, 0.0, yellowGreenPlate4Points);
-        Point2D.Double ballCoords = new Point2D.Double(redX, redY);
+        Point ballCoords = new Point((int) redX, (int) redY);
 
         WorldState worldState = new WorldState(ballCoords, blueRobot, yellowRobot, img);
 
@@ -476,6 +467,7 @@ public class Locator {
      */
     public boolean isYellow (Color c) {
 
+        System.out.println(c.toString());
         return ((c.getRed() >= yellow_r_low) && (c.getRed() <= yellow_r_high) && (c.getGreen() >= yellow_g_low) && (c.getGreen() <= yellow_g_high) && (c.getBlue() >= yellow_b_low) && (c.getBlue() <= yellow_b_high));
     }
 

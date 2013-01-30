@@ -1,154 +1,25 @@
 package sdp.vision.vision;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import sdp.vision.vision.common.Robot;
 import sdp.vision.vision.common.WorldState;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
+
+// Refactored to only include methods which carry out actual tests.
 
 public class Test extends Vision {
 
     //Configuration used to convert between relative coordinates and Pixel-Range coordinates
     static ArrayList<String> filelist = new ArrayList<String>();
 
-    //gets the document from the xml file
-    private static Document getDocumentFromXML (String filename) {
-        //Something about factories.
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        Document dom = null;
-        try {
-            //getting  an instance of document builder
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            //parse using builder to get  document representation of the XML file
-            dom = db.parse(filename);
-            System.out.println("Loaded XML file.");
-            //In the unlikely event that something breaks
-        } catch (ParserConfigurationException pce) {
-            pce.printStackTrace();
-        } catch (SAXException se) {
-            se.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        return dom;
-    }
-
-    //return an array list with the elements required from the xml document
-    private static ArrayList<WorldState> getWorldStateFromDocument (Document dom) {
-        //An ArrayList of WordStates is created and then states can be added as they are parsed
-        ArrayList<WorldState> states = new ArrayList<WorldState>();
-        //get the root element from the document
-        Element annotations = dom.getDocumentElement();
-        //get a nodelist of  elements
-        NodeList nl = annotations.getElementsByTagName("image");
-        //if there are elements then iterate through them to extract each state
-        if (nl != null && nl.getLength() > 0) {
-            for (int i = 0; i < nl.getLength(); i++) {
-                //get the individual state data node
-                Element ws = (Element) nl.item(i);
-                //Element passed to method for parsing individual elements
-                WorldState annotated = getWorldStateFromElement(ws);
-                //parsed state added to ArrayList
-                states.add(annotated);
-            }
-        }
-        //Debug
-        System.out.print(states.size());
-        System.out.println(" world states extracted from XML file.");
-        //ArrayList of parsed states returned to whatever called method
-        return states;
-    }
-
-    //returns the text value contained within an XML element
-    private static String getTextValue (Element ele, String tagName) {
-
-        String textVal = null;
-        NodeList nl = ele.getElementsByTagName(tagName);
-        if (nl != null && nl.getLength() > 0) {
-            Element el = (Element) nl.item(0);
-            textVal = el.getFirstChild().getNodeValue();
-        }
-        //Pretty printed linebreaks within the XML broke EVERYTHING but they are gone now
-        return textVal.replace("\n", "");
-    }
-
-    //return the float value contained within an XML element after first reading it's plaintext.
-    private static float getFloatValue (Element ele, String tagName) {
-        //in production application you would catch the exception
-        return Float.parseFloat(getTextValue(ele, tagName));
-    }
-
-    //returns a WorldState object with the data from one element of the xml file
-    private static WorldState getWorldStateFromElement (Element ws) {
-
-        WorldState state;
-        //SLIGHT XML NAVIGATION
-        //image -> filename
-        String filename = getTextValue(ws, "filename");
-        filelist.add(filename);
-
-
-        //attempting to load image from file
-        BufferedImage image = null;
-        try {
-            //filename referenced in XML is loaded as a BufferedImage
-            image = ImageIO.read(new File(filename));
-        } catch (Exception e) {
-            //This flags up when you FORGET TO REMOVE LEADING NEWLINES FROM FILENAMES
-            System.out.print(e);
-            System.out.printf("Error loading image from XML: %s\n", filename);
-        }
-
-        //XML NAVIGATION GOING DEEPER
-
-        // image -> location-data
-        Element data = (Element) ws.getElementsByTagName("location-data").item(0);
-
-        // location-data -> ball
-        Element balldata = (Element) data.getElementsByTagName("ball").item(0);
-
-        // ball -> x and ball -> y. Passed into a Point2D.Double ready to be passed to WorldState
-        Point2D.Double ballpos = new Point2D.Double(getFloatValue(balldata, "x"), getFloatValue(balldata, "y"));
-
-        // location-data -> bluerobot
-        Element bluerobotdata = (Element) data.getElementsByTagName("bluerobot").item(0);
-
-        //defining a blue robot object and passing it bluerobot -> x, bluerobot -> y and bluerobot -> angle
-        Robot bluerobot = new Robot(new Point2D.Double(getFloatValue(bluerobotdata, "x"), getFloatValue(bluerobotdata, "y")), (double) getFloatValue(bluerobotdata, "angle"), null);
-
-        // location-data -> yellowrobot
-        Element yellowrobotdata = (Element) data.getElementsByTagName("yellowrobot").item(0);
-
-        //defining a yellow robot object and passing it yellowrobot -> x, yellowrobot -> y and yellowrobot -> angle
-        Robot yellowrobot = new Robot(new Point2D.Double(getFloatValue(yellowrobotdata, "x"), getFloatValue(yellowrobotdata, "y")), (double) getFloatValue(yellowrobotdata, "angle"), null);
-
-        //WorldState object is created with parsed data passed to the constructor.
-
-        state = new WorldState(ballpos, bluerobot, yellowrobot, image);
-
-        //WorldState object is returned to whatever called this method.
-        return state;
-    }
-
     public static void printMarginsOfError (IterativeWorldStateDifferenceAccumulator difference, ArrayList<WorldState> annotations) {
         //Error details are generated
-        String ballerror = "Average ball error is " + ((float) difference.averageBallError(annotations.size())) + " pixels.";
-        String blueerror = "Average blue robot error is " + ((float) difference.averageBlueError(annotations.size())) + " pixels.";
-        String yellowerror = "Average yellow robot error is " + ((float) difference.averageYellowError(annotations.size())) + " pixels.";
+        String ballerror = "Average ball error is " + ((int) difference.averageBallError(annotations.size())) + " pixels.";
+        String blueerror = "Average blue robot error is " + ((int) difference.averageBlueError(annotations.size())) + " pixels.";
+        String yellowerror = "Average yellow robot error is " + ((int) difference.averageYellowError(annotations.size())) + " pixels.";
 
         //And output to the terminal
         System.out.println(ballerror);
@@ -174,7 +45,7 @@ public class Test extends Vision {
             out.append("\n");
             out.append(ballerror + "\n");
             index = 0;
-            for (float error : difference.balllist) {
+            for (int error : difference.balllist) {
                 index++;
                 out.append(index + ": ");
                 if (error > tolerance) {
@@ -186,7 +57,7 @@ public class Test extends Vision {
 
             out.append(blueerror + "\n");
             index = 0;
-            for (float error : difference.bluelist) {
+            for (int error : difference.bluelist) {
                 index++;
                 out.append(index + ": ");
                 if (error > tolerance) {
@@ -198,7 +69,7 @@ public class Test extends Vision {
 
             out.append(yellowerror + "\n");
             index = 0;
-            for (float error : difference.yellowlist) {
+            for (int error : difference.yellowlist) {
                 index++;
                 out.append(index + ": ");
                 if (error > tolerance) {
@@ -222,13 +93,16 @@ public class Test extends Vision {
         Test test = new Test();
 
         //delay in ms between slides being shown.
-        int delay = 2000;
+        int delay = 0;
 
         //if visual output should be shown when iterating
         boolean visoutput = true;
 
         //The xml file (currently hard coded location) is parsed by the above voodoo and stored in an ArrayList<WorldState>
-        ArrayList<WorldState> annotations = getWorldStateFromDocument(getDocumentFromXML("vision/imagedata.xml"));
+
+        // Removed this during refactoring - is the refactoring ok?
+        //ArrayList<WorldState> annotations = getWorldStateFromDocument(getDocumentFromXML("vision/imagedata.xml"));
+        ArrayList<WorldState> annotations = WorldStateFromXML.getWorldStateFromXML("vision/imagedata.xml");
 
         //Init display if showing output
         JFrame frame = null;

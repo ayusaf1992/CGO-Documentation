@@ -65,14 +65,11 @@ public class ImageVisualInputProvider extends VisualInputProvider implements Run
     public void run () {
 
         while (! Thread.interrupted()) {
+            for (nextImageIndex = 0; nextImageIndex < images.length; nextImageIndex++) {
             sendNextFrame(images[nextImageIndex]);
-            nextImageIndex = (nextImageIndex + 1) % images.length;
-
-            try {
-                Thread.sleep(sleepTime);
-            } catch (InterruptedException e) {
-                System.out.println(e.getStackTrace());
             }
+
+            Thread.currentThread().interrupt();
         }
     }
 

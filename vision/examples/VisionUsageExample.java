@@ -32,6 +32,10 @@ import sdp.vision.vision.visualinput.VisualInputProvider;
 public class VisionUsageExample implements Runnable {
 
     /**
+     * Whether to use camera or offline inputs.
+     */
+    private static final boolean USE_CAMERA = false;
+    /**
      * The vision subsystem object.
      */
     private Vision vision;
@@ -43,11 +47,6 @@ public class VisionUsageExample implements Runnable {
      * Vision sybsystem observer.
      */
     private WorldStateObserver visionObserver;
-
-    /**
-     * Whether to use camera or offline inputs.
-     */
-    private static final boolean USE_CAMERA = false;
 
 
     /**
@@ -76,52 +75,6 @@ public class VisionUsageExample implements Runnable {
         visionObserver = new WorldStateObserver(vision);
     }
 
-
-    /* (non-Javadoc)
-     * @see java.lang.Runnable#run()
-     */
-    @Override
-    public void run () {
-        // Start the vision thread.
-        input.startCapture();
-
-        if (USE_CAMERA) {
-            while (! Thread.interrupted()) {
-                // Get the next world state.
-                WorldState state = visionObserver.getNextState();
-
-                // Do something with the world state.
-                System.out.println("NEW STATE: " +
-                        "Ball at (" + state.getBallCoords().x +
-                        ", " + state.getBallCoords().y + "), " +
-                        "Blue at (" + state.getBlueRobot().getCoords().x +
-                        ", " + state.getBlueRobot().getCoords().y +
-                        ", " + state.getBlueRobot().getAngle() + "), " +
-                        "Yellow at (" + state.getYellowRobot().getCoords().x +
-                        ", " + state.getYellowRobot().getCoords().y +
-                        ", " + state.getYellowRobot().getAngle() + ").");
-            }
-        } else {
-            for (int i = 0; i < 3; i++) {
-                WorldState state = visionObserver.getNextState();
-
-                // Do something with the world state.
-                System.out.println("NEW STATE: " +
-                        "Ball at (" + state.getBallCoords().x +
-                        ", " + state.getBallCoords().y + "), " +
-                        "Blue at (" + state.getBlueRobot().getCoords().x +
-                        ", " + state.getBlueRobot().getCoords().y +
-                        ", " + state.getBlueRobot().getAngle() + "), " +
-                        "Yellow at (" + state.getYellowRobot().getCoords().x +
-                        ", " + state.getYellowRobot().getCoords().y +
-                        ", " + state.getYellowRobot().getAngle() + ").");
-            }
-
-            return;
-        }
-    }
-
-
     /**
      * The main method.
      *
@@ -131,6 +84,52 @@ public class VisionUsageExample implements Runnable {
 
         VisionUsageExample example = new VisionUsageExample();
         (new Thread(example, "Vision example")).start();
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Runnable#run()
+     */
+    @Override
+    public void run () {
+        // Start the vision thread.
+        input.startCapture();
+
+        while(!Thread.currentThread().isInterrupted()) {
+            if (USE_CAMERA) {
+                while (! Thread.interrupted()) {
+                    // Get the next world state.
+                    WorldState state = visionObserver.getNextState();
+
+                    // Do something with the world state.
+                    System.out.println("NEW STATE: " +
+                            "Ball at (" + state.getBallCoords().x +
+                            ", " + state.getBallCoords().y + "), " +
+                            "Blue at (" + state.getBlueRobot().getCoords().x +
+                            ", " + state.getBlueRobot().getCoords().y +
+                            ", " + state.getBlueRobot().getAngle() + "), " +
+                            "Yellow at (" + state.getYellowRobot().getCoords().x +
+                            ", " + state.getYellowRobot().getCoords().y +
+                            ", " + state.getYellowRobot().getAngle() + ").");
+                }
+            } else {
+                for (int i = 0; i < 3; i++) {
+                    WorldState state = visionObserver.getNextState();
+
+                    // Do something with the world state.
+                    System.out.println("NEW STATE: " +
+                            "Ball at (" + state.getBallCoords().x +
+                            ", " + state.getBallCoords().y + "), " +
+                            "Blue at (" + state.getBlueRobot().getCoords().x +
+                            ", " + state.getBlueRobot().getCoords().y +
+                            ", " + state.getBlueRobot().getAngle() + "), " +
+                            "Yellow at (" + state.getYellowRobot().getCoords().x +
+                            ", " + state.getYellowRobot().getCoords().y +
+                            ", " + state.getYellowRobot().getAngle() + ").");
+                }
+
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
 }

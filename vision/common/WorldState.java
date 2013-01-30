@@ -1,6 +1,6 @@
 package sdp.vision.vision.common;
 
-import java.awt.geom.Point2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 
@@ -14,7 +14,7 @@ public final class WorldState {
     /**
      * Location of the ball.
      */
-    private Point2D.Double ballCoords;
+    private Point ballCoords;
     /**
      * The blue robot.
      */
@@ -29,6 +29,10 @@ public final class WorldState {
      */
     private BufferedImage worldImage;
 
+    /**
+     * The pitch.
+     */
+    private Pitch pitch;
 
     /**
      * The main constructor.
@@ -38,7 +42,7 @@ public final class WorldState {
      * @param yellowRobot The yellow robot.
      * @param worldImage  The picture of the field.
      */
-    public WorldState (Point2D.Double ballCoords, Robot blueRobot, Robot yellowRobot, BufferedImage worldImage) {
+    public WorldState (Point ballCoords, Robot blueRobot, Robot yellowRobot, BufferedImage worldImage) {
 
         this.ballCoords = ballCoords;
         this.blueRobot = blueRobot;
@@ -52,7 +56,7 @@ public final class WorldState {
      *
      * @return The location of the ball.
      */
-    public final Point2D.Double getBallCoords () {
+    public final Point getBallCoords () {
 
         return ballCoords;
     }
@@ -87,8 +91,18 @@ public final class WorldState {
         return worldImage;
     }
 
+    /**
+     * Get the pitch.
+     *
+      * @return The pitch.
+     */
+    public final Pitch getPitch () {
+
+        return pitch;
+    }
+
     public String toString () {
 
-        return "Ball: " + ballCoords.toString() + "; BlueRobot " + blueRobot.toString() + "; YellowRobot " + yellowRobot.toString();
+        return "Ball: " + ballCoords.toString() + "; BlueRobot " + blueRobot.toString() + "; YellowRobot " + yellowRobot.toString() + pitch.toString();
     }
 }
