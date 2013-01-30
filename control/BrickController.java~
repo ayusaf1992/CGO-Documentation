@@ -108,7 +108,7 @@ public class BrickController implements Controller {
         }).start();
     }
 
-    public void gentleKick(int speed, int angle) { //This doesn't work. Its not meant to. Never use it. 
+    public void gentleKick(int speed, int angle) {
         KICKER.setSpeed(speed);
         KICKER.resetTachoCount();
         KICKER.rotateTo(angle);
@@ -142,7 +142,7 @@ public class BrickController implements Controller {
     }
 
     @Override
-    public void setWheelSpeeds(int leftWheelSpeed, int rightWheelSpeed) { //This is crap. 
+    public void setWheelSpeeds(int leftWheelSpeed, int rightWheelSpeed) {
         if (leftWheelSpeed > MAXIMUM_MOTOR_SPEED)
             leftWheelSpeed = MAXIMUM_MOTOR_SPEED;
         if (rightWheelSpeed > MAXIMUM_MOTOR_SPEED)

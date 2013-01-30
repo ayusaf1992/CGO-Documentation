@@ -64,8 +64,6 @@ public interface Controller {
      */
     public abstract void kick();
 
-    public abstract void quickKick();
-
     /**
      * Penalty kick
      */
